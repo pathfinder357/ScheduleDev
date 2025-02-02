@@ -9,4 +9,6 @@ public interface ScheduleRepository {
     Schedule save(Schedule schedule);
     List<Schedule> findAll(String updatedDate, String memberName);
     Optional<Schedule> findById(Long id);
+    Schedule update(Schedule schedule);
+    void deleteById(Long id);
 }

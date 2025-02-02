@@ -1,6 +1,7 @@
 package com.example.schedule.service;
 
 import com.example.schedule.dto.request.ScheduleSaveRequestDto;
+import com.example.schedule.dto.request.ScheduleUpdateRequestDto;
 import com.example.schedule.dto.response.ScheduleResponseDto;
 import com.example.schedule.entity.Schedule;
 import com.example.schedule.repository.ScheduleRepository;
@@ -61,5 +62,38 @@ public class ScheduleService {
                 schedule.getCreatedAt(),
                 schedule.getUpdatedAt()
         )).toList();
+    }
+
+    @Transactional
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto request) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 id의 스케줄이 존재하지 않습니다.")
+        );
+        if (!schedule.getPassword().equals(request.getPassword())) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+
+        schedule.update(request.getTask(), request.getMemberName());
+        Schedule updatedSchedule = scheduleRepository.update(schedule);
+
+        return new ScheduleResponseDto(
+                updatedSchedule.getId(),
+                updatedSchedule.getTask(),
+                updatedSchedule.getMemberName(),
+                updatedSchedule.getCreatedAt(),
+                updatedSchedule.getUpdatedAt()
+        );
+    }
+
+    @Transactional
+    public void deleteSchedule(Long id, String password) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 id의 스케줄이 존재하지 않습니다.")
+        );
+
+        if (!schedule.getPassword().equals(password)) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+        scheduleRepository.deleteById(id);
     }
 }

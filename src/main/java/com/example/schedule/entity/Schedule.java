@@ -30,4 +30,9 @@ public class Schedule {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    public void update(String task, String memberName) {
+        this.task = task;
+        this.memberName = memberName;
+    }
 }
