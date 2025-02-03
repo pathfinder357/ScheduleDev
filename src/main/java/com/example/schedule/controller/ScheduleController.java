@@ -5,10 +5,9 @@ import com.example.schedule.dto.request.ScheduleUpdateRequestDto;
 import com.example.schedule.dto.response.ScheduleResponseDto;
 import com.example.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,10 +21,15 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedules")
-    public ResponseEntity<List<ScheduleResponseDto>> findAll(
+    public ResponseEntity<Page<ScheduleResponseDto>> findAll(
             @RequestParam(required = false) String updatedDate,
-            @RequestParam(required = false) String memberName) {
-        return ResponseEntity.ok(scheduleService.findAll(updatedDate, memberName));
+            @RequestParam(required = false) String memberName,
+            @RequestParam(required = false) Long memberId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<ScheduleResponseDto> result = scheduleService.findAll(updatedDate, memberName, memberId, page - 1, size);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/schedules/{id}")
@@ -42,7 +46,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/schedules/{id}")
-    public void deleteSchedule(@PathVariable Long id, @RequestParam String password) {
-        scheduleService.deleteSchedule(id, password);
+    public void deleteSchedule(@PathVariable Long id, @RequestParam String memberName, @RequestParam String password) {
+        scheduleService.deleteSchedule(id, memberName, password);
     }
 }

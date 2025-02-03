@@ -12,27 +12,16 @@ public class Schedule {
 
     @Setter private Long id;
     private String task;
-    private String password;
-    private String memberName;
+    private Member member;
     @Setter private LocalDateTime createdAt;
     @Setter private LocalDateTime updatedAt;
 
-    public Schedule(String task, String password, String memberName) {
+    public Schedule(String task, Member member) {
         this.task = task;
-        this.password = password;
-        this.memberName = memberName;
+        this.member = member;
     }
 
-    public Schedule(Long id, String task, String memberName, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
+    public void update(String task) {
         this.task = task;
-        this.memberName = memberName;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public void update(String task, String memberName) {
-        this.task = task;
-        this.memberName = memberName;
     }
 }

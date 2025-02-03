@@ -3,9 +3,8 @@ package com.example.schedule.dto.request;
 import lombok.Getter;
 
 @Getter
-public class ScheduleSaveRequestDto {
+public class MemberUpdateRequestDto {
 
-    private String task;
-    private String memberEmail;
+    private String name;
     private String password;
 }
