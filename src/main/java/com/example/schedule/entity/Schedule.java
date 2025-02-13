@@ -1,27 +1,36 @@
-package com.example.schedule.entity;
+package com.example.scheduledevelop.domain.schedule.entity;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
-public class Schedule {
+@Entity
+@NoArgsConstructor
+@Table(name = "schdeules")
+public class Schedule extends BaseEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Setter private Long id;
-    private String task;
-    private Member member;
-    @Setter private LocalDateTime createdAt;
-    @Setter private LocalDateTime updatedAt;
+    @Column(nullable = false)
+    private String writer;
 
-    public Schedule(String task, Member member) {
-        this.task = task;
-        this.member = member;
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String contents;
+
+    public Schedule(String writer, String title, String contents) {
+        this.writer = writer;
+        this.title = title;
+        this.contents = contents;
     }
 
-    public void update(String task) {
-        this.task = task;
+    public void update(String title, String contents) {
+        this.title = title;
+        this.contents = contents;
     }
+
 }
